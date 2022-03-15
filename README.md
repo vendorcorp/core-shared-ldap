@@ -15,6 +15,9 @@ The rest of this documentation assumes you have created an AWS Vault profile cal
 - [Terraform](https://www.terraform.io/downloads.html) v1.0.11: What you'll find in this repository!
 - AWS Vault: You need this to access Sonatype AWS Accounts
 
+You might also want:
+- [Apache Directory Studio](https://directory.apache.org/studio/downloads.html) to browse LDAP / Actitve Directory
+
 ## Running Terraform
 
 Use Terraform:

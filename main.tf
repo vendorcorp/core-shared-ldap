@@ -1,11 +1,11 @@
 module "shared_infrastructure" {
-  source      = "git::ssh://git@github.com/sonatype/terraform-shared-infrastructure.git?ref=v0.0.4"
+  source      = "git::ssh://git@github.com/vendorcorp/terraform-shared-infrastructure.git?ref=v0.0.5"
   environment = var.environment
 }
 
 resource "aws_directory_service_directory" "vendorcorp_ldap" {
-  name        = "ldap.vendorcorp.internal"
-  short_name  = "ldap"
+  name        = "vendorcorp.internal"
+  short_name  = "vendorcorp"
   description = "Shared LDAP service for Vendor Corp"
   password    = local.ldap_admin_password
   edition     = "Standard"
@@ -18,4 +18,12 @@ resource "aws_directory_service_directory" "vendorcorp_ldap" {
   }
 
   tags = var.default_resource_tags
+}
+
+resource "aws_route53_record" "dns_ldap_vendorcorp_intenral" {
+  zone_id = module.shared_infrastructure.dns_zone_internal_id
+  name    = "ldap.vendorcorp.internal"
+  type    = "A"
+  ttl     = "300"
+  records = aws_directory_service_directory.vendorcorp_ldap.dns_ip_addresses
 }
